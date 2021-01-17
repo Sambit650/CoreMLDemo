@@ -57,6 +57,7 @@ class ObjectDetectViewController: UIViewController, UINavigationControllerDelega
                 print("Less Accuracy")
                 self.objectName.text = "Oops!"
                 self.objectDescription.text = "Sorry! We can't move forward due to less Accuracy. Please Try again."
+                self.navigationItem.title = ""
             } else {
                 self.navigationItem.title = "Accuracy : \(acc)"
                 let finalName = self.singleObjectName(unfilteredName: topResult.identifier)
