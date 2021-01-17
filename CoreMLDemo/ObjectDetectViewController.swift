@@ -41,10 +41,12 @@ class ObjectDetectViewController: UIViewController, UINavigationControllerDelega
     
     //MARK:- Detect Objects From VNCoreMLModel
     func detect(image: CIImage) {
-        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+        let config = MLModelConfiguration()
+        guard let coreMLmodel = try? Inceptionv3(configuration: config),
+              let visionModel = try? VNCoreMLModel(for: coreMLmodel.model) else {
             fatalError("can't load ML model")
         }
-        let request = VNCoreMLRequest(model: model) { request, error in
+        let request = VNCoreMLRequest(model: visionModel) { request, error in
             guard let results = request.results as? [VNClassificationObservation],
                   let topResult = results.first
             else {
