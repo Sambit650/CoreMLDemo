@@ -27,8 +27,6 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Configure the SFSpeechRecognizer object already
-        // stored in a local member variable.
         speechRecognizer.delegate = self
         
         // Asynchronously make the authorization request.
@@ -64,6 +62,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         recordButton.isEnabled = false
         recordButton.layer.cornerRadius = 20
         recordButton.setTitle("Start Recording...", for: .normal)
+        print(SFSpeechRecognizer.supportedLocales())
     }
     
     private func startRecording() throws {
@@ -97,6 +96,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
                 // Update the text view with the results.
                 self.textView.text = result.bestTranscription.formattedString
                 isFinal = result.isFinal
+                print(isFinal)
                 print("Text \(result.bestTranscription.formattedString)")
             }
             
