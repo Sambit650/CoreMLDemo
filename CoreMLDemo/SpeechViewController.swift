@@ -32,8 +32,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         // Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
             
-            // Divert to the app's main thread so that the UI
-            // can be updated.
+            // Divert to the app's main thread so that the UI can be updated.
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
@@ -82,11 +81,6 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create a SFSpeechAudioBufferRecognitionRequest object") }
         recognitionRequest.shouldReportPartialResults = true
         
-        // Keep speech recognition data on device
-        if #available(iOS 13, *) {
-            recognitionRequest.requiresOnDeviceRecognition = false
-        }
-        
         // Create a recognition task for the speech recognition session.
         // Keep a reference to the task so that it can be canceled.
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
@@ -122,7 +116,6 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         audioEngine.prepare()
         try audioEngine.start()
         
-        // Let the user know to start talking.
         textView.text = "(Go ahead, I'm listening)"
     }
     
@@ -138,7 +131,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         }
     }
     
-    // MARK:- Interface actions
+    // MARK:- Button actions
     @IBAction func recordButtonPressed(_ sender: Any) {
         if audioEngine.isRunning {
             audioEngine.stop()
@@ -148,9 +141,9 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         } else {
             do {
                 try startRecording()
-                recordButton.setTitle("Stop Recording...", for: [])
+                recordButton.setTitle("Stop Recording...", for: .normal)
             } catch {
-                recordButton.setTitle("Recording Not Available", for: [])
+                recordButton.setTitle("Recording Not Available", for: .normal)
             }
         }
     }
