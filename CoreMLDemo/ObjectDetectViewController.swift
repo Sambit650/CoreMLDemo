@@ -39,7 +39,7 @@ class ObjectDetectViewController: UIViewController, UINavigationControllerDelega
     }
     
     //MARK:- Detect Objects From VNCoreMLModel
-    func detect(image: CIImage) {
+    func detectObject(image: CIImage) {
         let config = MLModelConfiguration()
         guard let coreMLmodel = try? Inceptionv3(configuration: config),
               let visionModel = try? VNCoreMLModel(for: coreMLmodel.model) else {
@@ -123,7 +123,7 @@ extension ObjectDetectViewController: UIImagePickerControllerDelegate {
             guard let ciImage = CIImage(image: image) else {
                 fatalError("couldn't convert uiimage to CIImage")
             }
-            detect(image: ciImage)
+            detectObject(image: ciImage)
         }
     }
 }
