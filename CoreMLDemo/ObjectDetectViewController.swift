@@ -52,19 +52,19 @@ class ObjectDetectViewController: UIViewController, UINavigationControllerDelega
                 fatalError("unexpected result type from VNCoreMLRequest")
             }
             let acc = Int(topResult.confidence * 100)
-//            if acc <= 40 {
-//                print("Less Accuracy")
-//                self.objectName.text = "Oops!"
-//                self.objectDescription.text = "Sorry! We can't move forward due to less Accuracy. Please Try again."
-//                self.navigationItem.title = ""
-//                self.descriptionBackGroundView.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-//            } else {
+            if acc <= 40 {
+                print("Less Accuracy")
+                self.objectName.text = "Oops!"
+                self.objectDescription.text = "Sorry! We can't move forward due to less Accuracy. Please Try again."
+                self.navigationItem.title = ""
+                self.descriptionBackGroundView.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+            } else {
                 self.navigationItem.title = "Accuracy : \(acc)"
                 let finalName = self.singleObjectName(unfilteredName: topResult.identifier)
                 self.requestInfo(ObjectName: finalName)
                 self.objectName.text = finalName
                 self.descriptionBackGroundView.backgroundColor = #colorLiteral(red: 0.08940082043, green: 0.6852295995, blue: 0.6533659101, alpha: 1)
-         //   }
+            }
         }
         let handler = VNImageRequestHandler(ciImage: image)
         do {
