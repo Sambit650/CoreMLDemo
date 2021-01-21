@@ -81,6 +81,11 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create a SFSpeechAudioBufferRecognitionRequest object") }
         recognitionRequest.shouldReportPartialResults = true
         
+        // Keep speech recognition data on device
+        if #available(iOS 13, *) {
+            recognitionRequest.requiresOnDeviceRecognition = false
+        }
+        
         // Create a recognition task for the speech recognition session.
         // Keep a reference to the task so that it can be canceled.
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
@@ -103,7 +108,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
                 self.recognitionTask = nil
                 
                 self.recordButton.isEnabled = true
-                self.recordButton.setTitle("Start Recording", for: [])
+                self.recordButton.setTitle("Start Recording", for: .normal)
             }
         }
         
@@ -124,7 +129,7 @@ public class SpeechViewController: UIViewController, SFSpeechRecognizerDelegate 
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
             recordButton.isEnabled = true
-            recordButton.setTitle("Start Recording", for: [])
+            recordButton.setTitle("Start Recording", for: .normal)
         } else {
             recordButton.isEnabled = false
             recordButton.setTitle("Recognition Not Available", for: .disabled)
